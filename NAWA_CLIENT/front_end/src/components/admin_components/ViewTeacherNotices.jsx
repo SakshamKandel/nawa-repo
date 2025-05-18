@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const ViewTeacherNotices = () => {
   const [notices, setNotices] = useState([]);
@@ -28,6 +29,30 @@ const ViewTeacherNotices = () => {
   const handleViewNotice = (notice) => {
     setSelectedNotice(notice);
     setShowModal(true);
+  };
+
+  // Approve a notice
+  const handleApprove = async (id) => {
+    try {
+      await axios.patch(`http://localhost:8000/teacher-notices/${id}/approve`, {}, { withCredentials: true });
+      fetchNotices();
+      setShowModal(false);
+      toast.success('Notice approved!');
+    } catch (err) {
+      toast.error('Failed to approve notice');
+    }
+  };
+
+  // Deny a notice
+  const handleDeny = async (id) => {
+    try {
+      await axios.patch(`http://localhost:8000/teacher-notices/${id}/deny`, {}, { withCredentials: true });
+      fetchNotices();
+      setShowModal(false);
+      toast.success('Notice denied!');
+    } catch (err) {
+      toast.error('Failed to deny notice');
+    }
   };
 
   const formatDate = (dateString) => {
@@ -93,13 +118,16 @@ const ViewTeacherNotices = () => {
                       Date
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {notices.map((notice) => (
-                    <tr key={notice._id} className="hover:bg-gray-50">
+                    <tr key={notice._id} className="hover:bg-blue-50 transition-colors duration-150">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">
                           {notice.teacherName}
@@ -113,13 +141,41 @@ const ViewTeacherNotices = () => {
                           {formatDate(notice.createdAt)}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-3 py-1 text-xs font-semibold rounded-full shadow-sm border \
+                          ${notice.status === 'pending' ? 'bg-yellow-100 text-yellow-800 border-yellow-300' :
+                            notice.status === 'approved' ? 'bg-green-100 text-green-800 border-green-300' :
+                            'bg-red-100 text-red-800 border-red-300'}
+                        `}>
+                          {notice.status.charAt(0).toUpperCase() + notice.status.slice(1)}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex gap-2 items-center">
                         <button
                           onClick={() => handleViewNotice(notice)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-blue-600 hover:text-blue-900 underline underline-offset-2"
+                          title="View full details"
                         >
                           View Details
                         </button>
+                        {notice.status === 'pending' && (
+                          <>
+                            <button
+                              onClick={() => handleApprove(notice._id)}
+                              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded shadow-sm text-xs font-semibold transition-colors duration-150"
+                              title="Approve this notice"
+                            >
+                              Approve
+                            </button>
+                            <button
+                              onClick={() => handleDeny(notice._id)}
+                              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow-sm text-xs font-semibold transition-colors duration-150"
+                              title="Deny this notice"
+                            >
+                              Deny
+                            </button>
+                          </>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -164,7 +220,33 @@ const ViewTeacherNotices = () => {
                 <p className="text-sm font-medium text-gray-500">Date</p>
                 <p className="mt-1 text-sm text-gray-900">{formatDate(selectedNotice.createdAt)}</p>
               </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Status</p>
+                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  selectedNotice.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                  selectedNotice.status === 'approved' ? 'bg-green-100 text-green-800' :
+                  'bg-red-100 text-red-800'
+                }`}>
+                  {selectedNotice.status ? selectedNotice.status.charAt(0).toUpperCase() + selectedNotice.status.slice(1) : 'Pending'}
+                </span>
+              </div>
             </div>
+            {selectedNotice.status === 'pending' && (
+              <div className="flex gap-2 mt-4">
+                <button
+                  onClick={() => handleApprove(selectedNotice._id)}
+                  className="bg-green-500 text-white px-4 py-2 rounded"
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={() => handleDeny(selectedNotice._id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                >
+                  Deny
+                </button>
+              </div>
+            )}
             <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setShowModal(false)}

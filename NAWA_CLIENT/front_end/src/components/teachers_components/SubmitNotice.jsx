@@ -10,6 +10,9 @@ const SubmitNotice = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [teacherId, setTeacherId] = useState('');
+  const [notices, setNotices] = useState([]);
+  const [noticesLoading, setNoticesLoading] = useState(false);
+  const [noticesError, setNoticesError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +50,25 @@ const SubmitNotice = () => {
     fetchTeacherId();
   }, []);
 
+  useEffect(() => {
+    // Fetch teacher's own notices when teacherId is set
+    const fetchNotices = async () => {
+      if (!teacherId) return;
+      setNoticesLoading(true);
+      setNoticesError('');
+      try {
+        const response = await axios.get(`http://localhost:8000/teacher-alerts?teacherId=${teacherId}`, {
+          withCredentials: true
+        });
+        setNotices(response.data);
+      } catch (error) {
+        setNoticesError('Failed to fetch your notices');
+      }
+      setNoticesLoading(false);
+    };
+    fetchNotices();
+  }, [teacherId]);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -76,7 +98,7 @@ const SubmitNotice = () => {
       setMessage('Notice submitted successfully!');
       setFormData({ subject: '', message: '' });
       setTimeout(() => {
-        navigate('/teacher-dashboard');
+        navigate('/teacher-alerts');
       }, 2000);
     } catch (error) {
       console.error('Error submitting notice:', error); // Debug log
@@ -143,6 +165,48 @@ const SubmitNotice = () => {
               {loading ? 'Submitting...' : 'Submit Notice'}
             </button>
           </form>
+        </div>
+      </div>
+      {/* Teacher's own notices below the form */}
+      <div className="max-w-3xl mx-auto mt-8">
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">My Notices</h2>
+          {noticesLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+          ) : noticesError ? (
+            <div className="bg-red-50 text-red-700 p-4 rounded-md mb-4">{noticesError}</div>
+          ) : notices.length === 0 ? (
+            <div className="text-center py-8">
+              <svg className="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <h3 className="mt-2 text-sm font-medium text-gray-900">No notices</h3>
+              <p className="mt-1 text-sm text-gray-500">You haven't submitted any notices yet.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {notices.map((notice) => (
+                <div key={notice._id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">{notice.subject}</h3>
+                      <p className="mt-1 text-sm text-gray-500">{new Date(notice.createdAt).toLocaleString()}</p>
+                    </div>
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                      notice.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                      notice.status === 'approved' ? 'bg-green-100 text-green-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {notice.status.charAt(0).toUpperCase() + notice.status.slice(1)}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-gray-700 whitespace-pre-wrap">{notice.message}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

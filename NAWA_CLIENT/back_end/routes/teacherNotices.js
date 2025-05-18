@@ -19,6 +19,7 @@ router.get('/teacher-notices', verifyAdmin, async (req, res) => {
       teacherName: notice.teacherId.name,
       subject: notice.subject,
       message: notice.message,
+      status: notice.status,
       createdAt: notice.createdAt
     }));
 
@@ -77,6 +78,26 @@ router.get('/teacher-alerts', async (req, res) => {
   } catch (error) {
     console.error('Error fetching teacher notices:', error);
     res.status(500).json({ message: 'Error fetching teacher notices' });
+  }
+});
+
+// Approve a notice
+router.patch('/teacher-notices/:id/approve', verifyAdmin, async (req, res) => {
+  try {
+    const notice = await TeacherNotice.findByIdAndUpdate(req.params.id, { status: 'approved' }, { new: true });
+    res.json(notice);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Deny a notice
+router.patch('/teacher-notices/:id/deny', verifyAdmin, async (req, res) => {
+  try {
+    const notice = await TeacherNotice.findByIdAndUpdate(req.params.id, { status: 'rejected' }, { new: true });
+    res.json(notice);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
