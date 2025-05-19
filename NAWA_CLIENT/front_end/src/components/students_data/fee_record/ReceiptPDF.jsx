@@ -265,11 +265,6 @@ const ReceiptPDF = ({ studentData, pdfdata }) => {
           </View>
           <View style={styles.headerRightContent}>
             <Image 
-              style={styles.schoolLogo} 
-              src="/school_logo.png" 
-              cache={false}
-              quality={100}
-            />
           </View>
         </View>
 

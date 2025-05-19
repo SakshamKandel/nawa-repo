@@ -378,8 +378,3 @@ const TeacherReceiptPDF = ({ teacherData, pdfData }) => {
           </Text>
         </View>
       </Page>
-    </Document>
-  );
-};
-
-export default TeacherReceiptPDF; 

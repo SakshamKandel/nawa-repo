@@ -222,7 +222,7 @@ const About = () => {
       }} />
       
       {/* Animations CSS */}
-      <style>{`
+      {/* Animations CSS */}
         @keyframes fadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
