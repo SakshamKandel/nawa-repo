@@ -100,7 +100,6 @@ const FetchStudents = () => {
                       <option value="4">Class 4</option>
                       <option value="5">Class 5</option>
                       <option value="6">Class 6</option>
-                      <option value="7">Class 7</option>
                     </select>
                   </div>
                   <div className="flex-1">
@@ -121,7 +120,6 @@ const FetchStudents = () => {
                       <option value="4">Class 4</option>
                       <option value="5">Class 5</option>
                       <option value="6">Class 6</option>
-                      <option value="7">Class 7</option>
                     </select>
                   </div>
                 </div>
@@ -146,7 +144,7 @@ const FetchStudents = () => {
                 <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                   <div>
                     <h2 className="text-lg font-medium text-gray-900">
-                      Class {studentsData.length > 0 ? studentsData[0].class_name : ""} Students
+                      Students List
                     </h2>
                     <p className="text-sm text-gray-500">{studentsData.length} students found</p>
                   </div>

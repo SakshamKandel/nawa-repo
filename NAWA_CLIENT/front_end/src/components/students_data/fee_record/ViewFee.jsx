@@ -235,21 +235,7 @@ const ViewFee = () => {
                       </div>
 
                       {/* Payment Summary */}
-                      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-red-50 p-4 rounded-lg border border-red-100">
-                          <div className="flex items-center">
-                            <div className="bg-red-100 rounded-full p-2 mr-3">
-                              <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4M12 4v16" />
-                              </svg>
-                            </div>
-                            <div>
-                              <p className="text-sm text-red-500">Amount Due</p>
-                              <p className="font-bold text-red-700 text-lg">Rs. {due}</p>
-                            </div>
-                          </div>
-                        </div>
-                        
+                      <div className="mt-8">
                         <div className="bg-green-50 p-4 rounded-lg border border-green-100">
                           <div className="flex items-center">
                             <div className="bg-green-100 rounded-full p-2 mr-3">

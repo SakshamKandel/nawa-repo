@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaGraduationCap, FaMoneyBillWave, FaHistory, FaArchive, FaCalendarAlt } from 'react-icons/fa';
 
 const Navbar = () => {
   const location = useLocation();
@@ -211,7 +212,7 @@ const Navbar = () => {
                       setshowDropDown(false);
                     }}
                     className={`inline-flex items-center px-3 py-2 rounded-md text-sm font-medium relative group ${
-                      ["/routines", "/create-notice", "/update-class-structure", "/view-teachers-payroll", "/fetch-students"].includes(location.pathname)
+                      ["/routines", "/create-notice", "/view-teachers-payroll", "/fetch-students"].includes(location.pathname)
                         ? "text-gray-900 bg-gray-100"
                         : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                     } transition-all duration-200 cursor-pointer`}
@@ -308,28 +309,6 @@ const Navbar = () => {
                         </li>
                         <li>
                           <Link
-                            to="/update-class-structure"
-                            className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
-                          >
-                            <svg
-                              className="w-5 h-5 mr-2 text-gray-900"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                              ></path>
-                            </svg>
-                            Fee Structure
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
                             to="/view-teachers-payroll"
                             className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                           >
@@ -348,6 +327,28 @@ const Navbar = () => {
                               ></path>
                             </svg>
                             Teachers Payroll
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/admin/teacher-notices"
+                            className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
+                          >
+                            <svg
+                              className="w-5 h-5 mr-2 text-gray-900"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                              />
+                            </svg>
+                            Teacher Alerts
                           </Link>
                         </li>
                         <li>
@@ -374,24 +375,11 @@ const Navbar = () => {
                         </li>
                         <li>
                           <Link
-                            to="/admin/teacher-notices"
+                            to="/admin/year-end"
                             className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                           >
-                            <svg
-                              className="w-5 h-5 mr-2 text-gray-900"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                              />
-                            </svg>
-                            Teacher Alerts
+                            <FaCalendarAlt className="w-5 h-5 mr-2 text-gray-900" />
+                            Year-End Management
                           </Link>
                         </li>
                       </ul>
@@ -972,37 +960,6 @@ const Navbar = () => {
                   </Link>
 
                   <Link
-                    to="/update-class-structure"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center px-4 py-3 relative ${
-                      location.pathname === "/update-class-structure"
-                        ? "text-gray-900 bg-gray-50 font-medium"
-                        : "text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    {location.pathname === "/update-class-structure" && (
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
-                    )}
-                    <svg
-                      className={`w-5 h-5 mr-3 ${
-                        location.pathname === "/update-class-structure" ? "text-gray-900" : "text-gray-500"
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    Fee Structure
-                  </Link>
-
-                  <Link
                     to="/view-teachers-payroll"
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center px-4 py-3 relative ${
@@ -1032,73 +989,183 @@ const Navbar = () => {
                     </svg>
                     Teachers Payroll
                   </Link>
-                </>
-              )}
 
-              {/* Update the teacher notice link */}
-              {teacherLoggedIn && (
-                    <Link
-                  to="/teacher-alerts"
-                      onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center px-4 py-3 relative ${
-                    location.pathname === "/teacher-alerts"
-                      ? "text-gray-900 bg-gray-50 font-medium"
-                          : "text-gray-700 hover:bg-gray-50"
+                  <Link
+                    to="/admin/teacher-notices"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center px-4 py-3 relative ${
+                      location.pathname === "/admin/teacher-notices"
+                        ? "text-gray-900 bg-gray-50 font-medium"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {location.pathname === "/admin/teacher-notices" && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
+                    )}
+                    <svg
+                      className={`w-5 h-5 mr-3 ${
+                        location.pathname === "/admin/teacher-notices" ? "text-gray-900" : "text-gray-500"
                       }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                  {location.pathname === "/teacher-alerts" && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
-                      )}
-                      <svg
-                    className={`w-5 h-5 mr-3 ${
-                      location.pathname === "/teacher-alerts" ? "text-gray-900" : "text-gray-500"
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                        ></path>
-                      </svg>
-                  Teacher Alerts
-                    </Link>
-              )}
-              {teacherLoggedIn && (
-                    <Link
-                  to="/submit-notice"
-                      onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center px-4 py-3 relative ${
-                    location.pathname === "/submit-notice"
-                      ? "text-gray-900 bg-gray-50 font-medium"
-                          : "text-gray-700 hover:bg-gray-50"
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                      />
+                    </svg>
+                    Teacher Alerts
+                  </Link>
+
+                  <Link
+                    to="/admin/remove-teacher"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center px-4 py-3 relative ${
+                      location.pathname === "/admin/remove-teacher"
+                        ? "text-gray-900 bg-gray-50 font-medium"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {location.pathname === "/admin/remove-teacher" && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
+                    )}
+                    <svg
+                      className={`w-5 h-5 mr-3 text-red-500`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      ></path>
+                    </svg>
+                    Remove Teacher
+                  </Link>
+
+                  <Link
+                    to="/admin/year-end"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center px-4 py-3 relative ${
+                      location.pathname === "/admin/year-end"
+                        ? "text-gray-900 bg-gray-50 font-medium"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {location.pathname === "/admin/year-end" && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
+                    )}
+                    <FaCalendarAlt className={`w-5 h-5 mr-3 ${
+                      location.pathname === "/admin/year-end" ? "text-gray-900" : "text-gray-500"
+                    }`} />
+                    Year-End Management
+                  </Link>
+
+                  {/* Create Account Section */}
+                  <div className="py-2 px-4 bg-gray-50 border-t border-b border-gray-200">
+                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Create Account</p>
+                  </div>
+
+                  <Link
+                    to="/create-account-teacher"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center px-4 py-3 relative ${
+                      location.pathname === "/create-account-teacher"
+                        ? "text-gray-900 bg-gray-50 font-medium"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {location.pathname === "/create-account-teacher" && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
+                    )}
+                    <svg
+                      className={`w-5 h-5 mr-3 ${
+                        location.pathname === "/create-account-teacher" ? "text-gray-900" : "text-gray-500"
                       }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                  {location.pathname === "/submit-notice" && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
-                      )}
-                      <svg
-                    className={`w-5 h-5 mr-3 ${
-                      location.pathname === "/submit-notice" ? "text-gray-900" : "text-gray-500"
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                        ></path>
-                      </svg>
-                  Inform Admin
-                    </Link>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      ></path>
+                    </svg>
+                    Create Teacher
+                  </Link>
+
+                  <Link
+                    to="/create-account-student"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center px-4 py-3 relative ${
+                      location.pathname === "/create-account-student"
+                        ? "text-gray-900 bg-gray-50 font-medium"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {location.pathname === "/create-account-student" && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
+                    )}
+                    <svg
+                      className={`w-5 h-5 mr-3 ${
+                        location.pathname === "/create-account-student" ? "text-gray-900" : "text-gray-500"
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                      ></path>
+                    </svg>
+                    Create Student
+                  </Link>
+
+                  <Link
+                    to="/create-account-admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center px-4 py-3 relative ${
+                      location.pathname === "/create-account-admin"
+                        ? "text-gray-900 bg-gray-50 font-medium"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {location.pathname === "/create-account-admin" && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-300"></div>
+                    )}
+                    <svg
+                      className={`w-5 h-5 mr-3 ${
+                        location.pathname === "/create-account-admin" ? "text-gray-900" : "text-gray-500"
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    Create Admin
+                  </Link>
+                </>
               )}
             </nav>
           </div>
@@ -1108,8 +1175,8 @@ const Navbar = () => {
 
       {/* Custom Logout Confirmation Modal */}
       {showLogoutModal && (
-        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 z-[99999]">
-          <div className="backdrop-blur-md bg-white/80 border border-gray-100 shadow-2xl rounded-2xl px-8 py-6 flex flex-col items-center min-w-[340px] max-w-xs animate-fade-in relative">
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-[99999] transition-all duration-200 ease-in-out animate-fade-in">
+          <div className="bg-white rounded-2xl px-8 py-6 flex flex-col items-center min-w-[340px] max-w-xs shadow-xl border border-gray-200 transform transition-all duration-200 ease-in-out animate-scale-in relative">
             <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg p-2 border border-gray-100">
               <svg className="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 11-6 0v-1" />
@@ -1119,13 +1186,13 @@ const Navbar = () => {
             <p className="mb-5 text-gray-600 text-sm">Are you sure you want to log out?</p>
             <div className="flex justify-center gap-3 w-full">
               <button
-                className="px-5 py-2 rounded-full bg-gray-600 text-white font-semibold hover:bg-gray-700 transition text-sm shadow"
+                className="px-5 py-2 rounded-full bg-gray-600 text-white font-semibold hover:bg-gray-700 transition-colors duration-200 text-sm shadow"
                 onClick={handleLogout}
               >
                 Yes, Log Out
               </button>
               <button
-                className="px-5 py-2 rounded-full bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 transition text-sm shadow"
+                className="px-5 py-2 rounded-full bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 transition-colors duration-200 text-sm shadow"
                 onClick={() => setShowLogoutModal(false)}
               >
                 Cancel
@@ -1134,6 +1201,24 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+      {/* Add these styles at the end of the file */}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.2s ease-out;
+        }
+        .animate-scale-in {
+          animation: scaleIn 0.2s ease-out;
+        }
+      `}</style>
     </div>
   );
 };

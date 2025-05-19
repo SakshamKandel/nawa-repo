@@ -115,7 +115,6 @@ const CreateAccountStudent = () => {
                     <option value="4">Class 4</option>
                     <option value="5">Class 5</option>
                     <option value="6">Class 6</option>
-                    <option value="7">Class 7</option>
                   </select>
                   {errors.class_name && (
                     <p className="mt-1 text-sm text-red-600">{errors.class_name.message}</p>
@@ -298,6 +297,10 @@ const CreateAccountStudent = () => {
                             value: 30,
                             message: "Password cannot exceed 30 characters",
                           },
+                          pattern: {
+                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                            message: "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+                          },
                         })}
                       />
                       <button
@@ -311,7 +314,7 @@ const CreateAccountStudent = () => {
                     {errors.password && (
                       <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
                     )}
-                    <p className="mt-1 text-xs text-[#666666]">Password must be 8-30 characters long</p>
+                    <p className="mt-1 text-xs text-[#666666]">Password must be 8-30 characters long with at least one uppercase letter, one lowercase letter, one number, and one symbol</p>
                   </div>
                 </div>
               </div>

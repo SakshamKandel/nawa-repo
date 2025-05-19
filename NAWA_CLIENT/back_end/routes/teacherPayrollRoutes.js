@@ -1,5 +1,5 @@
 import express from 'express';
-import { getTeacherSalary, updateSalary, getAllTeachersPayroll, getPayrollSummary, removeTeacher } from '../controllers/teacherPayrollController.js';
+import { getTeacherSalary, updateSalary, getAllTeachersPayroll, getPayrollSummary, removeTeacher, clearTeacherPayroll } from '../controllers/teacherPayrollController.js';
 import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -32,5 +32,8 @@ router.get('/summary/:year', getPayrollSummary);
 
 // Remove a teacher from the system
 router.delete('/:teacherId', removeTeacher);
+
+// Clear all payroll records for a specific teacher
+router.post('/clear', clearTeacherPayroll);
 
 export default router; 

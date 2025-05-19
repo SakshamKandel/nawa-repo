@@ -141,13 +141,13 @@ const ViewLeaveRequests = () => {
 
       {/* Response Modal */}
       {selectedRequest && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 transition-all duration-200 ease-in-out animate-fade-in">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl border border-gray-200 transform transition-all duration-200 ease-in-out animate-scale-in">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Respond to Leave Request</h3>
             <textarea
               value={response}
               onChange={(e) => setResponse(e.target.value)}
-              className="w-full p-2 border rounded-md mb-4"
+              className="w-full p-2 border rounded-md mb-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
               rows="4"
               placeholder="Enter your response..."
             />
@@ -157,19 +157,19 @@ const ViewLeaveRequests = () => {
                   setSelectedRequest(null);
                   setResponse('');
                 }}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleStatusUpdate(selectedRequest._id, 'approved')}
-                className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
+                className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-200"
               >
                 Approve
               </button>
               <button
                 onClick={() => handleStatusUpdate(selectedRequest._id, 'rejected')}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors duration-200"
               >
                 Reject
               </button>
@@ -177,6 +177,24 @@ const ViewLeaveRequests = () => {
           </div>
         </div>
       )}
+
+      {/* Add these styles at the end of the file */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.2s ease-out;
+        }
+        .animate-scale-in {
+          animation: scaleIn 0.2s ease-out;
+        }
+      `}</style>
     </div>
   );
 };

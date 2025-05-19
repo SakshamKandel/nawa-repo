@@ -6,6 +6,7 @@ import About from "./components/About";
 import Footer from "./components/Footer";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AIChatBox from "./components/AIChatBox";
 
 import LoginForm from "./components/LoginForm";
 import Context from "./Context";
@@ -18,8 +19,6 @@ import CreateAccountStudent from "./components/admin_components/accounts_creatio
 import FetchStudents from "./components/students_data/students_profile_view/FetchStudents";
 import EditStudentData from "./components/students_data/edit_profile/EditStudentData";
 import ViewFee from "./components/students_data/fee_record/ViewFee";
-import View_Class_Fee_Structure from "./components/admin_components/class_fee_structure/View_Class_Fee_Structure";
-import Edit_Fee_Struct from "./components/admin_components/class_fee_structure/Edit_Fee_Struct";
 import EditFeeRecord from "./components/students_data/fee_record/EditFeeRecord";
 import TeacherPayroll from "./components/teachers_components/teachers_payroll/TeacherPayroll";
 import ContactUs from "./components/ContactUs";
@@ -31,6 +30,7 @@ import ViewLeaveRequests from "./components/admin_components/leave_management/Vi
 import ViewTeacherNotices from './components/admin_components/ViewTeacherNotices';
 import SubmitNotice from './components/teachers_components/SubmitNotice';
 import TeacherAlerts from './components/teachers_components/TeacherAlerts';
+import YearEndManagement from "./components/admin_components/year_end_management/YearEndManagement";
 
 function Loader() {
   return (
@@ -93,8 +93,6 @@ export default function App() {
             <Route exact path="/fetch-students" element={<FetchStudents />} />
             <Route exact path="/edit-details" element={<EditStudentData />} />
             <Route exact path="/view-fee" element={<ViewFee />} />
-            <Route exact path="/update-class-structure" element={<View_Class_Fee_Structure />} />
-            <Route exact path="/edit-fee-struct" element={<Edit_Fee_Struct/>} />
             <Route exact path="/edit-student-fee-record" element={<EditFeeRecord/>} />
             <Route exact path="/view-teachers-payroll" element={<TeacherPayroll/>} />
             <Route exact path="/my-salary" element={<MySalary />} />
@@ -104,8 +102,10 @@ export default function App() {
             <Route exact path="/admin/teacher-notices" element={<ViewTeacherNotices />} />
             <Route exact path="/submit-notice" element={<SubmitNotice />} />
             <Route exact path="/teacher-alerts" element={<TeacherAlerts />} />
+            <Route exact path="/admin/year-end" element={<YearEndManagement />} />
           </Routes>
         </main>
+        <AIChatBox />
         <Footer />
       </Context>
     </Router>

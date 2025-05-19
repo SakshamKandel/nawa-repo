@@ -189,4 +189,18 @@ export const removeTeacher = async (req, res) => {
       stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
+};
+
+// Clear all payroll records for a specific teacher
+export const clearTeacherPayroll = async (req, res) => {
+  try {
+    const { teacherId } = req.body;
+    if (!teacherId) {
+      return res.status(400).json({ message: 'teacherId is required' });
+    }
+    await TeacherPayroll.deleteMany({ teacherId });
+    res.status(200).json({ message: 'Payroll records cleared successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }; 

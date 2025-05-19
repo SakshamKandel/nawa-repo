@@ -25,9 +25,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   schoolLogo: {
-    width: 70,
-    height: 70,
-    marginBottom: 5
+    width: 100,
+    height: 'auto',
+    marginBottom: 5,
+    objectFit: 'contain'
   },
   schoolName: {
     fontSize: 22,
@@ -263,7 +264,12 @@ const ReceiptPDF = ({ studentData, pdfdata }) => {
             </View>
           </View>
           <View style={styles.headerRightContent}>
-            <Image style={styles.schoolLogo} src="/school-logo.png" />
+            <Image 
+              style={styles.schoolLogo} 
+              src="/school_logo.png" 
+              cache={false}
+              quality={100}
+            />
           </View>
         </View>
 

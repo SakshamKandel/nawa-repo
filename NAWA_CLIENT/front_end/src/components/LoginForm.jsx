@@ -157,14 +157,6 @@ const LoginForm = () => {
           </div>
         </div>
 
-        <div className="flex justify-center items-center gap-1.5 mt-8 text-sm">
-          <a href="#" className="text-[#0a66c2] hover:underline hover:text-[#004182]">Help</a>
-          <span className="text-gray-400">•</span>
-          <a href="#" className="text-[#0a66c2] hover:underline hover:text-[#004182]">Privacy & Terms</a>
-          <span className="text-gray-400">•</span>
-          <a href="#" className="text-[#0a66c2] hover:underline hover:text-[#004182]">Cookies</a>
-        </div>
-
         <div className="mt-6 text-center text-xs text-gray-500">
           <p>Nawa Tara English School ©️ {new Date().getFullYear()}</p>
         </div>

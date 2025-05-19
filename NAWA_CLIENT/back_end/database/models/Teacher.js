@@ -35,9 +35,6 @@ const teacherSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Create indexes
-teacherSchema.index({ email: 1 }, { unique: true });
-
 // Add middleware to delete related records when a teacher is deleted
 teacherSchema.pre('findOneAndDelete', async function(next) {
   const teacher = await this.model.findOne(this.getQuery());

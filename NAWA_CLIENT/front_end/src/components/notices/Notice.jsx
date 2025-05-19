@@ -176,7 +176,7 @@ const Notice = () => {
         ) : notices.length ? (
           <div className="space-y-3">
             {notices.map((notice) => (
-              <div key={notice.date || notice.createdAt} className="bg-white rounded-lg shadow-sm border border-[#e0e0e0] hover:shadow-md transition-shadow duration-200">
+              <div key={`${notice._id}-${notice.date || notice.createdAt}`} className="bg-white rounded-lg shadow-sm border border-[#e0e0e0] hover:shadow-md transition-shadow duration-200">
                 {/* Notice header with LinkedIn style */}
                 <div className="p-4">
                   <div className="flex items-start justify-between">

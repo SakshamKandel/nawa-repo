@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Links, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import axios from "axios";
 
 const FetchStudentData = (props) => {
   const adminLoggedIn = document.cookie.includes("adminToken");
   const teacherLoggedIn = document.cookie.includes("teacherToken");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [confirmStep, setConfirmStep] = useState(1); // 1 for warning, 2 for final confirmation
+
   const handleEditFunc = async () => {
     try {
       navigate("/edit-details",{state:{student:props.student}});
@@ -13,15 +17,118 @@ const FetchStudentData = (props) => {
       toast.error(error.message);
     }
   };
-  const handleViewFeeFunc=async()=>{
+
+  const handleViewFeeFunc = async () => {
     try {
       navigate("/view-fee",{state:{student:props.student}});
     } catch (error) {
       toast.error(error.message);
     }
   }
+
+  const handleRemoveStudent = async () => {
+    try {
+      if (confirmStep === 1) {
+        setConfirmStep(2);
+        return;
+      }
+
+      const response = await axios.delete(
+        `http://localhost:8000/remove-student/${props.student._id}`,
+        { withCredentials: true }
+      );
+      toast.success(response.data.message);
+      setShowRemoveModal(false);
+      setConfirmStep(1);
+      props.setshowModal(false);
+      props.setsingleData(null);
+      
+      // Add a small delay before reloading to ensure the toast is visible
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.message);
+      }
+      setShowRemoveModal(false);
+      setConfirmStep(1);
+    }
+  };
+
+  const resetRemoveModal = () => {
+    setShowRemoveModal(false);
+    setConfirmStep(1);
+  };
+
   return (
     <div className="min-h-screen bg-[#f3f2ef] py-8 px-4 sm:px-6 lg:px-8">
+      {/* Remove Student Modal */}
+      {showRemoveModal && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-[99999] transition-all duration-200 ease-in-out animate-fade-in">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl border border-gray-200 transform transition-all duration-200 ease-in-out animate-scale-in">
+            <div className="flex items-center justify-center mb-4">
+              <div className="bg-red-100 rounded-full p-3">
+                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+            </div>
+            
+            {confirmStep === 1 ? (
+              <>
+                <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">Warning: Student Removal</h3>
+                <p className="text-gray-600 text-center mb-6">
+                  You are about to remove {props.student.name} from the database. This action will:
+                  <ul className="text-left mt-2 list-disc list-inside text-sm">
+                    <li>Delete all student information</li>
+                    <li>Remove all fee records</li>
+                    <li>This action cannot be undone</li>
+                  </ul>
+                </p>
+                <div className="flex justify-end gap-3">
+                  <button
+                    onClick={resetRemoveModal}
+                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleRemoveStudent}
+                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                  >
+                    Proceed
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">Final Confirmation</h3>
+                <p className="text-gray-600 text-center mb-6">
+                  Are you absolutely sure you want to remove {props.student.name}? This is your last chance to cancel.
+                </p>
+                <div className="flex justify-end gap-3">
+                  <button
+                    onClick={resetRemoveModal}
+                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleRemoveStudent}
+                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                  >
+                    Yes, Remove Student
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="max-w-3xl mx-auto">
         {/* Profile Header */}
         <div className="bg-white rounded-t-lg shadow-sm overflow-hidden border border-gray-200 border-b-0">
@@ -131,7 +238,8 @@ const FetchStudentData = (props) => {
         <div className="flex flex-wrap gap-3 justify-between">
           <button
             onClick={() => {
-              props.setshowModal(false), props.setsingleData(null);
+              props.setshowModal(false);
+              props.setsingleData(null);
             }}
             className="text-gray-700 bg-white hover:bg-gray-50 border border-gray-300 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center shadow-sm transition-colors duration-200"
           >
@@ -154,53 +262,91 @@ const FetchStudentData = (props) => {
           
           <div className="flex flex-wrap gap-3">
             {adminLoggedIn && (
-              <button
-                onClick={handleEditFunc}
-                className="text-white bg-[#0a66c2] hover:bg-[#004182] focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center shadow-sm transition-colors duration-200"
-              >
-                <svg
-                  className="w-4 h-4 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+              <>
+                <button
+                  onClick={handleEditFunc}
+                  className="text-white bg-[#0a66c2] hover:bg-[#004182] focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center shadow-sm transition-colors duration-200"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
-                Edit Details
-              </button>
+                  <svg
+                    className="w-4 h-4 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                  Edit Details
+                </button>
+
+                <button
+                  onClick={() => setShowRemoveModal(true)}
+                  className="text-white bg-[#0a66c2] hover:bg-[#004182] focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center shadow-sm transition-colors duration-200"
+                >
+                  <svg
+                    className="w-4 h-4 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                  Remove Student
+                </button>
+              </>
             )}
             
-            {adminLoggedIn && (
-              <button
-                onClick={handleViewFeeFunc}
-                className="text-[#0a66c2] bg-white hover:bg-blue-50 border border-[#0a66c2] focus:ring-2 focus:outline-none focus:ring-blue-100 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center shadow-sm transition-colors duration-200"
+            <button
+              onClick={handleViewFeeFunc}
+              className="text-white bg-[#0a66c2] hover:bg-[#004182] focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center shadow-sm transition-colors duration-200"
+            >
+              <svg
+                className="w-4 h-4 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <svg
-                  className="w-4 h-4 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-                View Fee Record
-              </button>
-            )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              View Fee
+            </button>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.2s ease-out;
+        }
+        .animate-scale-in {
+          animation: scaleIn 0.2s ease-out;
+        }
+      `}</style>
     </div>
   );
 };

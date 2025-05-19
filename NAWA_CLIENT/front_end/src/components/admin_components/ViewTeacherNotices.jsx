@@ -188,15 +188,15 @@ const ViewTeacherNotices = () => {
 
       {/* Modal for viewing notice details */}
       {showModal && selectedNotice && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full p-6">
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center p-4 z-50 transition-all duration-200 ease-in-out animate-fade-in">
+          <div className="bg-white rounded-lg max-w-2xl w-full p-6 shadow-xl border border-gray-200 transform transition-all duration-200 ease-in-out animate-scale-in">
             <div className="flex justify-between items-start mb-4">
               <h3 className="text-lg font-medium text-gray-900">
                 Notice Details
               </h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-gray-400 hover:text-gray-500 transition-colors duration-200"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -250,7 +250,7 @@ const ViewTeacherNotices = () => {
             <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setShowModal(false)}
-                className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200"
+                className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors duration-200"
               >
                 Close
               </button>
@@ -258,6 +258,24 @@ const ViewTeacherNotices = () => {
           </div>
         </div>
       )}
+
+      {/* Add these styles at the end of the file */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.2s ease-out;
+        }
+        .animate-scale-in {
+          animation: scaleIn 0.2s ease-out;
+        }
+      `}</style>
     </div>
   );
 };

@@ -106,7 +106,7 @@ const EditStudentData = () => {
                     {...register("class_name", {
                       required: "Class selection is required",
                       min: { value: 1, message: "Please select a valid class" },
-                      max: { value: 7, message: "Please select a valid class" },
+                      max: { value: 6, message: "Please select a valid class" },
                     })}
                   >
                     <option value="1">Class 1</option>
@@ -115,7 +115,6 @@ const EditStudentData = () => {
                     <option value="4">Class 4</option>
                     <option value="5">Class 5</option>
                     <option value="6">Class 6</option>
-                    <option value="7">Class 7</option>
                   </select>
                   {errors.class_name && (
                     <p className="mt-1 text-sm text-red-600">{errors.class_name.message}</p>
